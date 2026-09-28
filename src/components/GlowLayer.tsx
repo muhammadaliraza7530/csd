@@ -1,56 +1,40 @@
 import { useEffect } from "react";
 
-/**
- * Site-wide premium light layer.
- * 1. Pointer-following corner glow on every `.lit-panel`.
- * 2. Panels near the viewport centre light up automatically while scrolling.
- */
 export function GlowLayer() {
   useEffect(() => {
-    let raf = 0;
+    // Intersection observer for .reveal elements
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
 
-    const onMove = (e: PointerEvent) => {
-      const target = (e.target as HTMLElement | null)?.closest?.(".lit-panel") as HTMLElement | null;
-      if (!target) return;
-      const r = target.getBoundingClientRect();
-      target.style.setProperty("--mx", `${e.clientX - r.left}px`);
-      target.style.setProperty("--my", `${e.clientY - r.top}px`);
-    };
+    const revealElements = document.querySelectorAll(".reveal");
+    revealElements.forEach((el) => observer.observe(el));
 
-    const sweep = () => {
-      raf = 0;
-      const mid = window.innerHeight * 0.52;
-      const band = window.innerHeight * 0.3;
-      document.querySelectorAll<HTMLElement>(".lit-panel").forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > window.innerHeight) {
-          el.classList.remove("is-lit");
-          return;
-        }
-        const center = r.top + r.height / 2;
-        const lit = Math.abs(center - mid) < band;
-        el.classList.toggle("is-lit", lit);
-        if (lit) {
-          el.style.setProperty("--mx", "50%");
-          el.style.setProperty("--my", "0%");
-        }
+    // Also observe dynamic DOM mutations
+    const mutationObserver = new MutationObserver(() => {
+      document.querySelectorAll(".reveal:not(.visible)").forEach((el) => {
+        observer.observe(el);
       });
-    };
+    });
 
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(sweep);
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    schedule();
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
     return () => {
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      if (raf) cancelAnimationFrame(raf);
+      observer.disconnect();
+      mutationObserver.disconnect();
     };
   }, []);
 

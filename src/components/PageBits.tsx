@@ -28,9 +28,15 @@ export function PageHero({
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-black/60" />
       <div className="relative mx-auto w-full max-w-4xl px-5 text-center lg:px-8">
         <Reveal>
-          <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-primary sm:text-xs">{eyebrow}</p>
-          <h1 className="mt-4 text-2xl font-extrabold uppercase leading-[1.1] sm:text-4xl lg:text-6xl">{title}</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">{intro}</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-primary sm:text-xs">
+            {eyebrow}
+          </p>
+          <h1 className="mt-4 text-2xl font-extrabold uppercase leading-[1.1] sm:text-4xl lg:text-6xl">
+            {title}
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">
+            {intro}
+          </p>
         </Reveal>
       </div>
     </section>
@@ -50,7 +56,9 @@ export function CtaBand({
       <div className="relative mx-auto max-w-3xl px-5 text-center lg:px-8">
         <Reveal>
           <h2 className="text-xl leading-tight sm:text-3xl lg:text-4xl">{title}</h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">{body}</p>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {body}
+          </p>
           <Link
             to="/contact"
             className="btn-shake sheen-on-hover mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] text-primary-foreground transition-colors hover:bg-accent"
@@ -64,5 +72,9 @@ export function CtaBand({
 }
 
 export function Prose({ children }: { children: ReactNode }) {
-  return <div className="space-y-5 text-sm leading-relaxed text-muted-foreground sm:text-base">{children}</div>;
+  return (
+    <div className="space-y-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
+      {children}
+    </div>
+  );
 }

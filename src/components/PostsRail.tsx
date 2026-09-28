@@ -23,7 +23,9 @@ export function PostsRail() {
             />
           </div>
           <div className="flex flex-col p-4 sm:p-5">
-            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary">{p.tag}</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary">
+              {p.tag}
+            </span>
             <h3 className="mt-2 line-clamp-2 text-sm font-bold sm:text-base">{p.title}</h3>
             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">{p.location}</p>
           </div>

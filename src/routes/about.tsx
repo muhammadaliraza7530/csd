@@ -7,16 +7,22 @@ import { Counter, Reveal, SectionHeading } from "@/components/ui-bits";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Aspiring Homes — Design & Construction Firm, Pakistan" },
+      {
+        title: "About CSD Engineering Consultants — Engineering Solutions Since 2018",
+      },
       {
         name: "description",
         content:
-          "Aspiring Homes has been making quality houses since 2019 — an architecture, interior and construction firm working across Lahore, Faisalabad and Sialkot.",
+          "CSD Engineering Consultants has been delivering complete engineering solutions since 2018 — architecture, structural design, interior, landscape and precision land surveying across Swat Matta and KPK, Pakistan.",
       },
-      { property: "og:title", content: "About Aspiring Homes" },
+      {
+        property: "og:title",
+        content: "About CSD Engineering Consultants",
+      },
       {
         property: "og:description",
-        content: "Making quality houses since 2019, from Lahore across Punjab, Pakistan.",
+        content:
+          "Engineering Solutions for Your Dream Projects since 2018, based in Swat Matta, KPK.",
       },
     ],
   }),
@@ -29,8 +35,8 @@ function AboutPage() {
       <PageHero
         eyebrow="About us"
         title={company.since}
-        intro="One in-house team for architecture, 3D visualisation, interiors and site execution."
-        image={img.courtyard}
+        intro="One in-house team for architecture, structural engineering, precision land surveying, interior and project management."
+        image={img.hero3}
       />
 
       <section className="py-20 lg:py-28">
@@ -40,90 +46,69 @@ function AboutPage() {
             <div className="mt-8">
               <Prose>
                 <p>
-                  Aspiring Homes is a design and construction firm working across Lahore, Faisalabad and Sialkot. We
-                  started in 2019 with a simple idea: a family building their home should not have to chase three
-                  different people for drawings, material and labour.
+                  CSD Engineering Consultants is an engineering and architectural consultancy based
+                  in Swat Matta, KPK, serving clients across Pakistan. We started in 2018 with a
+                  clear principle: clients embarking on dream projects should not have to coordinate
+                  between separate architects, structural engineers, land surveyors, and site
+                  contractors.
                 </p>
                 <p>
-                  So we kept everything in-house — architecture, 3D visualisation, interior design and site execution.
-                  Our own supervisors manage the crews, our own designers answer your questions, and the drawing you
-                  approve is the house that gets built.
+                  We bring every discipline under one roof — 2D planning, 3D elevations,
+                  earthquake-resistant RCC structural calculations, Total Station & GPS land
+                  surveying, and rigorous on-site QA/QC supervision.
                 </p>
                 <p>
-                  From Spanish-style courtyards to sharp contemporary facades, we build the language your family loves —
-                  detailed properly and finished honestly.
+                  From classical luxury villas and heritage havelis to multi-storey commercial
+                  plazas and hospital complexes, we turn your plot into an enduring reality with
+                  precision and integrity.
                 </p>
               </Prose>
             </div>
           </div>
 
           <Reveal>
-            <div className="lit-panel overflow-hidden bg-card">
-              <img
-                src={img.luxuryVilla}
-                alt="Completed luxury villa by Aspiring Homes"
-                loading="lazy"
-                className="aspect-4/5 w-full object-cover"
-              />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              {stats.map((s) => (
+                <div key={s.label} className="rounded-2xl border border-white/10 bg-[#111827] p-8">
+                  <p className="text-3xl font-extrabold text-[#f97316] sm:text-4xl">
+                    <Counter value={s.value} />
+                  </p>
+                  <p className="mt-2 text-sm text-gray-400">{s.label}</p>
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="border-y border-border bg-card/30 py-14">
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-5 text-center sm:grid-cols-3 lg:px-8">
-          {stats.map((s) => (
-            <Reveal key={s.label}>
-              <Counter value={s.value} className="ember-text text-4xl font-extrabold sm:text-5xl" />
-              <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                {s.label}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="py-20 lg:py-28">
+      <section className="border-t border-white/10 bg-[#0a0f1a] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <SectionHeading eyebrow="How we work" title="Three promises we keep on every site" />
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {[
-              {
-                t: "Honest site work",
-                b: "Approved material, measured quantities and regular photo updates from your site.",
-              },
-              {
-                t: "Design you approve first",
-                b: "Nothing is cast on site until the plan and elevation are signed off by you.",
-              },
-              {
-                t: "One accountable team",
-                b: "Design, structure and finishing all sit with us — so nobody passes the blame.",
-              },
-            ].map((v, i) => (
-              <Reveal key={v.t} delay={i * 90}>
-                <div className="lit-panel h-full bg-card p-7">
-                  <h3 className="text-lg font-bold">{v.t}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{v.b}</p>
+          <SectionHeading
+            eyebrow="Credentials"
+            title="Certified engineering standards"
+            intro="Our team follows Pakistan Engineering Council and international building code guidelines."
+          />
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {registrations.map((r, i) => (
+              <Reveal key={r.authority} delay={i * 80}>
+                <div className="h-full rounded-2xl border border-white/10 bg-[#111827] p-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#f97316]">
+                    {r.authority}
+                  </span>
+                  <p className="mt-3 font-mono text-sm text-gray-400">{r.number}</p>
+                  <h3 className="mt-3 text-lg font-bold text-white">{r.title}</h3>
                 </div>
               </Reveal>
             ))}
           </div>
-
-          <div className="mt-12 flex flex-wrap gap-3">
-            {registrations.map((r) => (
-              <span
-                key={r}
-                className="reg-chip rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground"
-              >
-                {r}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 
-      <CtaBand />
+      <CtaBand
+        title="Ready to discuss your project?"
+        body="Share your plot size, location and requirements — our engineers will prepare a consultation and estimate."
+      />
     </>
   );
 }

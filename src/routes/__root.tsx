@@ -15,24 +15,23 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GlowLayer } from "@/components/GlowLayer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
-
-
+import { site } from "@/lib/site-data";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#0f172a] px-4 text-white">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <h1 className="text-7xl font-bold text-[#f97316]">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-white">Page not found</h2>
+        <p className="mt-2 text-sm text-gray-400">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-[#f97316] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#ea6c0a]"
           >
-            Go home
+            Back to Home
           </Link>
         </div>
       </div>
@@ -48,27 +47,25 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#0f172a] px-4 text-white">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+        <h1 className="text-xl font-semibold tracking-tight text-white">This page didn't load</h1>
+        <p className="mt-2 text-sm text-gray-400">
+          Something went wrong. You can try refreshing or return home.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-[#f97316] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#ea6c0a]"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-white/10"
           >
             Go home
           </a>
@@ -83,13 +80,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Aspiring Homes — Design & Construction Firm" },
+      { title: site.fullName },
       {
         name: "description",
-        content: "Making quality houses since 2019. Architecture, interiors and construction.",
+        content: site.description,
       },
-      { name: "author", content: "Aspiring Homes" },
+      { name: "author", content: site.name },
+      { property: "og:title", content: site.fullName },
+      { property: "og:description", content: site.description },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: site.logo },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -98,13 +98,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
       },
-
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/media/logo.jpg", type: "image/jpeg" },
     ],
   }),
 
@@ -133,11 +136,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-screen flex-col bg-[#0f172a] text-white">
         <GlowLayer />
         <Header />
         <main className="flex-1">
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
         <Footer />
@@ -146,5 +148,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-
-

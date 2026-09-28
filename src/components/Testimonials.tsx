@@ -12,7 +12,9 @@ export function TestimonialsRail() {
         >
           <div>
             <Quote className="size-7 text-primary" />
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">“{t.quote}”</p>
+            <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              “{t.quote}”
+            </p>
           </div>
           <footer className="mt-7 border-t border-border pt-5">
             <div className="flex gap-1 text-primary">

@@ -46,7 +46,7 @@ export function VideoPlayer({
           }
         }
       },
-      { threshold: 0.45 }
+      { threshold: 0.45 },
     );
     io.observe(wrap);
 
@@ -73,7 +73,7 @@ export function VideoPlayer({
       ref={wrapRef}
       className={cn(
         "group relative mx-auto flex items-center justify-center bg-transparent p-2",
-        className
+        className,
       )}
     >
       <div className="relative inline-block overflow-hidden rounded-3xl border-2 border-orange-500/80 shadow-2xl">

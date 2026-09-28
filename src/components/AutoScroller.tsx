@@ -20,7 +20,7 @@ export function AutoScroller({
   const dragging = useRef(false);
   const lastX = useRef(0);
   const paused = useRef(false);
-  
+
   // Agar user drag kare toh click na ho, iske liye
   const startX = useRef(0);
   const moved = useRef(false);
@@ -57,7 +57,7 @@ export function AutoScroller({
 
   const onMove = (e: React.PointerEvent) => {
     if (!dragging.current) return;
-    
+
     const diff = e.clientX - lastX.current;
     offset.current += diff;
     lastX.current = e.clientX;
@@ -97,7 +97,7 @@ export function AutoScroller({
       onMouseEnter={() => (paused.current = true)}
       onMouseLeave={() => (paused.current = false)}
       // pan-y se mobile par vertical scroll chalti rahegi, horizontal scroll iss component handle karega
-      style={{ touchAction: "pan-y" }} 
+      style={{ touchAction: "pan-y" }}
     >
       <div ref={trackRef} className="flex w-max gap-6 will-change-transform select-none">
         {children}

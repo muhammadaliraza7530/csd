@@ -1,0 +1,6 @@
+{
+  "name": "Aspiring Homes",
+  "description": "Making quality houses since 2019. Architecture, interiors and construction.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
