@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { site, heroSlides, stats, whyChooseUs, processSteps, showreelUrl } from "@/lib/site-data";
+import {
+  site,
+  heroSlides,
+  stats,
+  whyChooseUs,
+  processSteps,
+  showreelUrl,
+  showreelSources,
+} from "@/lib/site-data";
 import { ProjectsRail } from "@/components/ProjectsRail";
 import { VideoGallery } from "@/components/VideoGallery";
 import { ServicesRail } from "@/components/ServicesRail";
@@ -31,6 +39,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const [slideIndex, setSlideIndex] = useState(0);
+  const [showreelSource, setShowreelSource] = useState(showreelUrl);
 
   // Hero auto-slider
   useEffect(() => {
@@ -114,7 +123,20 @@ function HomePage() {
           </div>
 
           <div className="showreel-video-wrap reveal" style={{ transitionDelay: "0.15s" }}>
-            <video src={showreelUrl} autoPlay muted loop playsInline preload="metadata" />
+            <video
+              src={showreelSource}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              onError={() => {
+                const fallback = showreelSources.find((source) => source !== showreelSource);
+                if (fallback) {
+                  setShowreelSource(fallback);
+                }
+              }}
+            />
           </div>
         </div>
       </section>
