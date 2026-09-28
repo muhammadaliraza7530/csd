@@ -30,7 +30,7 @@ export const img = {
   brickFront: "/media/project6.jpg",
 };
 
-export const showreelUrl = "/media/showreel.mp4";
+export const showreelUrl = "/video/showreel.mp4";
 
 export const site = {
   name: "CSD Engineering Consultants",
