@@ -22,46 +22,50 @@
   --color-border: #ffffff14;
 }
 
-*,
-:before,
-:after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer base {
+  *,
+  :before,
+  :after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  :root {
+    --orange: #f97316;
+    --orange-dark: #ea6c0a;
+    --orange-light: #fb923c;
+    --navy: #0f172a;
+    --navy-light: #1e293b;
+    --navy-card: #111827;
+    --white: #fff;
+    --gray: #9ca3af;
+    --gray-light: #d1d5db;
+    --border: #ffffff14;
+    --glow: 0 0 60px #f9731626;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--navy);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    font-family: Inter, sans-serif;
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--navy);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--orange);
+    border-radius: 3px;
+  }
 }
-:root {
-  --orange: #f97316;
-  --orange-dark: #ea6c0a;
-  --orange-light: #fb923c;
-  --navy: #0f172a;
-  --navy-light: #1e293b;
-  --navy-card: #111827;
-  --white: #fff;
-  --gray: #9ca3af;
-  --gray-light: #d1d5db;
-  --border: #ffffff14;
-  --glow: 0 0 60px #f9731626;
-}
-html {
-  scroll-behavior: smooth;
-}
-body {
-  background-color: var(--navy);
-  color: var(--white);
-  -webkit-font-smoothing: antialiased;
-  font-family: Inter, sans-serif;
-  overflow-x: hidden;
-}
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--navy);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--orange);
-  border-radius: 3px;
-}
+
+@layer components {
 .container {
   max-width: 1280px;
   margin: 0 auto;
@@ -893,13 +897,14 @@ body {
   }
 }
 .reveal {
-  opacity: 0;
+  opacity: 1;
   transition:
-    opacity 0.7s,
-    transform 0.7s;
-  transform: translateY(40px);
+    opacity 0.5s,
+    transform 0.5s;
+  transform: none;
 }
-.reveal.visible {
+.reveal.visible,
+.reveal.is-in {
   opacity: 1;
   transform: none;
 }
@@ -1173,4 +1178,5 @@ body {
     left: auto;
     right: 14px;
   }
+}
 }

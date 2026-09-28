@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   site,
@@ -76,9 +76,9 @@ function HomePage() {
           <p className="hero-desc">{site.heroDesc}</p>
 
           <div className="hero-actions">
-            <a href="#projects" className="btn-primary">
+            <Link to="/projects" className="btn-primary">
               View Our Work →
-            </a>
+            </Link>
             <a
               href={site.whatsapp}
               target="_blank"
@@ -176,6 +176,11 @@ function HomePage() {
         </div>
 
         <ServicesRail />
+        <div className="container mt-10 text-center">
+          <Link to="/services" className="btn-secondary">
+            Explore All Engineering Services →
+          </Link>
+        </div>
       </section>
 
       {/* 5. PROJECTS SECTION */}
@@ -196,6 +201,11 @@ function HomePage() {
         </div>
 
         <ProjectsRail />
+        <div className="container mt-10 text-center">
+          <Link to="/projects" className="btn-primary">
+            View Full Portfolio (12 Projects) →
+          </Link>
+        </div>
       </section>
 
       {/* VIDEO GALLERY SECTION (LIKE ASPIRING-SIX) */}

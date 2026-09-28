@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { Link } from "@tanstack/react-router";
 import { projects, type ProjectItem } from "@/lib/site-data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -289,15 +290,24 @@ export function ProjectsRail() {
                 </button>
               </div>
 
-              <div style={{ marginTop: "28px" }}>
+              <div style={{ marginTop: "28px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                <Link
+                  to="/projects/$slug"
+                  params={{ slug: activeProject.slug }}
+                  onClick={() => setActiveProjectIndex(null)}
+                  className="btn-primary"
+                  style={{ width: "100%", justifyContent: "center" }}
+                >
+                  Open Full Project Details →
+                </Link>
                 <a
                   href={`https://wa.me/923441297256?text=Hello%20CSD%20Engineering%2C%20I%20am%20interested%20in%20${encodeURIComponent(activeProject.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary"
+                  className="btn-secondary"
                   style={{ width: "100%", justifyContent: "center" }}
                 >
-                  Inquire About This Project →
+                  Inquire on WhatsApp →
                 </a>
               </div>
             </div>

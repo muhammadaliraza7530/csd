@@ -1,26 +1,15 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "@tanstack/react-router";
 import { site, navLinks } from "@/lib/site-data";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
-
-      // Section spy
-      const sections = ["home", "about", "services", "projects", "contact"];
-      const scrollPos = window.scrollY + 200;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -28,32 +17,29 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  // Scroll to top when route changes
+  useEffect(() => {
     setOpen(false);
-    if (href.startsWith("#")) {
-      const targetId = href.substring(1);
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        e.preventDefault();
-        targetEl.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", href);
-        setActiveSection(targetId);
-      } else if (window.location.pathname !== "/") {
-        // Redirect to /#targetId
-        window.location.href = `/${href}`;
-      }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname]);
+
+  const isLinkActive = (to: string) => {
+    if (to === "/") {
+      return location.pathname === "/";
     }
+    return location.pathname === to || location.pathname.startsWith(`${to}/`);
   };
 
   return (
     <>
-      <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
-        <a href="#home" className="nav-logo" onClick={(e) => handleNavClick(e, "#home")}>
+      <nav className={`navbar ${scrolled || location.pathname !== "/" ? "scrolled" : ""}`}>
+        <Link to="/" className="nav-logo" onClick={() => setOpen(false)}>
           <img
             src={site.logo}
             alt="CSD Engineering Logo"
             width={44}
             height={44}
+            referrerPolicy="no-referrer"
             style={{
               borderRadius: "8px",
               background: "white",
@@ -62,21 +48,20 @@ export function Header() {
             }}
           />
           <span className="nav-logo-text">CSD Engineering</span>
-        </a>
+        </Link>
 
         <ul className="nav-links">
           {navLinks.map((link) => {
-            const sectionId = link.href.replace("#", "");
-            const isActive = activeSection === sectionId;
+            const active = isLinkActive(link.to);
             return (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className={isActive ? "active" : ""}
-                  onClick={(e) => handleNavClick(e, link.href)}
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  className={active ? "active" : ""}
+                  onClick={() => setOpen(false)}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             );
           })}
@@ -101,11 +86,19 @@ export function Header() {
       </nav>
 
       <div className={`mobile-menu ${open ? "open" : ""}`}>
-        {navLinks.map((link) => (
-          <a key={link.href} href={link.href} onClick={(e) => handleNavClick(e, link.href)}>
-            {link.label}
-          </a>
-        ))}
+        {navLinks.map((link) => {
+          const active = isLinkActive(link.to);
+          return (
+            <Link
+              key={link.to}
+              to={link.to}
+              style={active ? { color: "var(--orange)" } : undefined}
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
         <a
           href={`tel:${site.phone}`}
           style={{ color: "var(--orange)", borderBottom: "none" }}
