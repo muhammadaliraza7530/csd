@@ -30,7 +30,7 @@ export function VideoGallery() {
   };
 
   return (
-    <section className="py-20 lg:py-28 bg-[#0a0f1a] border-t border-white/10">
+    <section className="border-t border-white/10 bg-[#0a0f1a] py-20 lg:py-28">
       <div className="container">
         <div className="reveal mx-auto max-w-2xl text-center">
           <span
@@ -41,54 +41,65 @@ export function VideoGallery() {
           </span>
           <h2 className="section-title">Four films from our sites</h2>
           <p className="section-subtitle">
-            Tap any frame to play — starting one clip stops the others.
+            Tap any frame to play — uncropped full view with audio.
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-6 w-full max-w-6xl mx-auto">
+        {/* 4-column reel layout for portrait videos with zero cropping */}
+        <div className="mx-auto mt-12 grid w-full max-w-6xl grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
           {videoGallery.map((v, i) => (
             <div key={v.title} className="reveal" style={{ transitionDelay: `${i * 90}ms` }}>
               <div
                 onClick={() => play(i)}
-                className="lit-panel group relative cursor-pointer overflow-hidden bg-black rounded-xl border border-white/10 transition-all duration-300 hover:border-[#f97316]"
+                className="lit-panel group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-black transition-all duration-300 hover:border-[#f97316] hover:shadow-[0_0_30px_rgba(249,115,22,0.25)]"
               >
-                {/* Mobile: Tall height | Desktop: Normal video height */}
-                <div className="aspect-[3/4] md:aspect-video w-full overflow-hidden bg-black">
+                {/* 9:16 vertical ratio with object-contain ensures 100% full frame is visible with NO crop */}
+                <div className="relative flex aspect-[9/16] w-full items-center justify-center overflow-hidden bg-black">
                   <video
                     ref={(el) => {
                       refs.current[i] = el;
                     }}
                     src={v.src}
-                    poster={v.poster}
                     playsInline
                     preload="metadata"
                     muted
                     onEnded={() => setActive(null)}
-                    className="block h-full w-full object-cover"
+                    className="block size-full object-contain"
                   />
-                </div>
 
-                {/* Gradient Overlay */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />
+                  {/* Gradient Overlay (subtle, fades when playing) */}
+                  <div
+                    className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-300 ${
+                      active === i ? "opacity-40" : "opacity-85 group-hover:opacity-95"
+                    }`}
+                  />
 
-                {/* Controls & Text Overlay */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3 sm:p-5">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="truncate text-xs font-bold sm:text-base md:text-lg text-white">
-                      {v.title}
-                    </h3>
-                    <p className="mt-0.5 truncate text-[9px] sm:text-xs font-semibold uppercase tracking-wider text-[#f97316]">
-                      {v.caption}
-                    </p>
+                  {/* Play / Pause button indicator */}
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                    <span
+                      className={`grid size-12 place-items-center rounded-full border border-[#f97316] bg-[#f97316]/30 text-[#f97316] backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:bg-[#f97316]/50 ${
+                        active === i ? "scale-90 opacity-0 group-hover:opacity-100" : "opacity-90"
+                      }`}
+                    >
+                      {active === i ? (
+                        <Pause className="size-5 fill-current" />
+                      ) : (
+                        <Play className="size-5 translate-x-0.5 fill-current" />
+                      )}
+                    </span>
                   </div>
 
-                  <span className="grid size-8 sm:size-10 md:size-11 shrink-0 place-items-center rounded-full border border-[#f97316]/70 bg-[#f97316]/20 text-[#f97316] backdrop-blur transition-transform group-hover:scale-110">
-                    {active === i ? (
-                      <Pause className="size-3.5 sm:size-4 md:size-5 fill-current" />
-                    ) : (
-                      <Play className="size-3.5 sm:size-4 md:size-5 translate-x-px fill-current" />
-                    )}
-                  </span>
+                  {/* Bottom Text Details */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3 sm:p-4">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="truncate text-xs font-bold text-white sm:text-sm">
+                        {v.title}
+                      </h3>
+                      <p className="mt-0.5 truncate text-[10px] font-semibold uppercase tracking-wider text-[#f97316]">
+                        {v.caption}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
