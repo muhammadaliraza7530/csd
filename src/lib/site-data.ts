@@ -390,9 +390,28 @@ export const registrations = [
 
 export const videoGallery = [
   {
-    src: showreelUrl,
-    title: "CSD Engineering Showreel — Sites, Elevations & Construction",
+    src: "/videogrally/video1.mp4",
     poster: img.hero1,
+    title: "Project Showreel",
+    caption: "Design to handover",
+  },
+  {
+    src: "/videogrally/video2.mp4",
+    poster: img.hero2,
+    title: "Spanish Villa Walkthrough",
+    caption: "Elevation study",
+  },
+  {
+    src: "/videogrally/video3.mp4",
+    poster: img.hero3,
+    title: "Site Progress Film",
+    caption: "Grey structure",
+  },
+  {
+    src: "/videogrally/video4.mp4",
+    poster: img.project4,
+    title: "Interior Reveal",
+    caption: "Finishing stage",
   },
 ];
 

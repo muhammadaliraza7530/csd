@@ -10,6 +10,7 @@ import {
   showreelUrl,
 } from "@/lib/site-data";
 import { ProjectsRail } from "@/components/ProjectsRail";
+import { VideoGallery } from "@/components/VideoGallery";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -242,6 +243,9 @@ function HomePage() {
 
         <ProjectsRail />
       </section>
+
+      {/* VIDEO GALLERY SECTION (LIKE ASPIRING-SIX) */}
+      <VideoGallery />
 
       {/* 6. WHY CHOOSE US SECTION */}
       <section className="why-us">
