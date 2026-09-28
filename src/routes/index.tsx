@@ -1,16 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   site,
   heroSlides,
   stats,
-  services,
   whyChooseUs,
   processSteps,
   showreelUrl,
+  showreelSources,
 } from "@/lib/site-data";
 import { ProjectsRail } from "@/components/ProjectsRail";
 import { VideoGallery } from "@/components/VideoGallery";
+import { ServicesRail } from "@/components/ServicesRail";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,10 +39,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const [slideIndex, setSlideIndex] = useState(0);
-  const servicesScrollRef = useRef<HTMLDivElement>(null);
-  const isDraggingServices = useRef(false);
-  const startXServices = useRef(0);
-  const scrollLeftServices = useRef(0);
+  const [showreelSource, setShowreelSource] = useState(showreelUrl);
 
   // Hero auto-slider
   useEffect(() => {
@@ -50,26 +48,6 @@ function HomePage() {
     }, 6000);
     return () => clearInterval(timer);
   }, []);
-
-  // Services drag to scroll
-  const handleServicesMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!servicesScrollRef.current) return;
-    isDraggingServices.current = true;
-    startXServices.current = e.pageX - servicesScrollRef.current.offsetLeft;
-    scrollLeftServices.current = servicesScrollRef.current.scrollLeft;
-  };
-
-  const handleServicesMouseLeaveOrUp = () => {
-    isDraggingServices.current = false;
-  };
-
-  const handleServicesMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDraggingServices.current || !servicesScrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - servicesScrollRef.current.offsetLeft;
-    const walk = (x - startXServices.current) * 1.5;
-    servicesScrollRef.current.scrollLeft = scrollLeftServices.current - walk;
-  };
 
   return (
     <>
@@ -145,7 +123,20 @@ function HomePage() {
           </div>
 
           <div className="showreel-video-wrap reveal" style={{ transitionDelay: "0.15s" }}>
-            <video src={showreelUrl} autoPlay muted loop playsInline preload="metadata" />
+            <video
+              src={showreelSource}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              onError={() => {
+                const fallback = showreelSources.find((source) => source !== showreelSource);
+                if (fallback) {
+                  setShowreelSource(fallback);
+                }
+              }}
+            />
           </div>
         </div>
       </section>
@@ -184,44 +175,7 @@ function HomePage() {
           </div>
         </div>
 
-        <div
-          className="services-scroll"
-          ref={servicesScrollRef}
-          onMouseDown={handleServicesMouseDown}
-          onMouseLeave={handleServicesMouseLeaveOrUp}
-          onMouseUp={handleServicesMouseLeaveOrUp}
-          onMouseMove={handleServicesMouseMove}
-          style={{
-            paddingLeft: "max(24px, calc((100vw - 1280px)/2 + 24px))",
-            paddingRight: "24px",
-          }}
-        >
-          {services.map((item, idx) => (
-            <div
-              key={item.id}
-              className="service-card reveal"
-              style={{ transitionDelay: `${idx * 0.08}s` }}
-            >
-              <img
-                src={item.img}
-                alt={item.title}
-                width={280}
-                height={220}
-                className="service-card-img"
-                style={{
-                  objectFit: "cover",
-                  width: "100%",
-                  height: "220px",
-                }}
-              />
-              <div className="service-card-body">
-                <h3 className="service-card-title">{item.title}</h3>
-                <p className="service-card-desc">{item.desc}</p>
-              </div>
-              <div className="service-card-accent" />
-            </div>
-          ))}
-        </div>
+        <ServicesRail />
       </section>
 
       {/* 5. PROJECTS SECTION */}
